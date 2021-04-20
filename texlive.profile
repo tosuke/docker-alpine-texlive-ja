@@ -1,7 +1,7 @@
 selected_scheme scheme-basic
-# collection-langjapanese 1
-# collection-latexextra 1
-# collection-fontsrecommended 1
+collection-langjapanese 1
+collection-latexextra 1
+collection-fontsrecommended 1
 
 TEXDIR /usr/local/texlive/latest
 
