@@ -12,18 +12,20 @@ RUN apt-get update && \
 ENV PATH=/usr/local/texlive/2021/bin/linux:$PATH
 
 FROM base AS install
-ARG texlive_mirror=http://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet
+
+RUN apt-get update && apt-get install -y curl
 
 WORKDIR /tmp/install-tl-unx
-RUN wget ${texlive_mirror}/install-tl-unx.tar.gz && \
+RUN wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
     tar xvf install-tl-unx.tar.gz
 COPY ./texlive.profile .
 RUN cd ./install-tl-* && \
+    REPO=$(curl -w "%{redirect_url}" -s -o /dev/null https://mirror.ctan.org)systems/texlive/tlnet && \
     ./install-tl \
-      --repository ${texlive_mirror} \
-      --profile=/tmp/install-tl-unx/texlive.profile && \
+      --profile=/tmp/install-tl-unx/texlive.profile \
+      --repository $REPO &&\
     cd /usr/local/texlive/2021 && \
-    mv ./bin/$(arch)-linux ./bin/linux
+    mv ./bin/* ./bin/linux
 RUN tlmgr install \
       collection-latexextra \
       collection-fontsrecommended \
