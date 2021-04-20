@@ -3,29 +3,28 @@
 # Released under the MIT license
 # https://opensource.org/licenses/MIT
 
-FROM frolvlad/alpine-glibc:latest
+FROM debian:buster-slim as base
 
-ENV PATH /usr/local/texlive/2021/bin/x86_64-linuxmusl:$PATH
+RUN apt-get update && \
+    apt-get install -y wget tar perl fontconfig fontconfig-config libfreetype6
+ENV PATH /usr/local/texlive/2021/bin/$(arch)-linux:$PATH
 
-RUN apk add --no-cache curl perl fontconfig-dev freetype-dev && \
-    apk add --no-cache --virtual .fetch-deps xz tar wget && \
-    mkdir /tmp/install-tl-unx && \
-    curl -L ftp://tug.org/historic/systems/texlive/2021/install-tl-unx.tar.gz | \
-      tar -xz -C /tmp/install-tl-unx --strip-components=1 && \
-    printf "%s\n" \
-      "selected_scheme scheme-basic" \
-      "tlpdbopt_install_docfiles 0" \
-      "tlpdbopt_install_srcfiles 0" \
-      > /tmp/install-tl-unx/texlive.profile && \
-    /tmp/install-tl-unx/install-tl \
-      --profile=/tmp/install-tl-unx/texlive.profile && \
-    tlmgr install \
+FROM base AS install
+ARG texlive_mirror=http://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet
+
+WORKDIR /tmp/install-tl-unx
+RUN wget ${texlive_mirror}/install-tl-unx.tar.gz && \
+    tar xvf install-tl-unx.tar.gz
+COPY ./texlive.profile .
+RUN cd ./install-tl-* && \
+    ./install-tl \
+      --repository ${texlive_mirror} \
+      --profile=/tmp/install-tl-unx/texlive.profile
+RUN /usr/local/texlive/2021/bin/$(arch)-linux/tlmgr install \
       collection-latexextra \
       collection-fontsrecommended \
       collection-langjapanese \
-      latexmk && \
-    rm -fr /tmp/install-tl-unx && \
-    apk del .fetch-deps
+      latexmk
 
 WORKDIR /workdir
 
