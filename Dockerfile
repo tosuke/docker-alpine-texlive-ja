@@ -20,17 +20,16 @@ RUN wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && 
     tar xvf install-tl-unx.tar.gz
 COPY ./texlive.profile .
 RUN cd ./install-tl-* && \
-    REPO=$(curl -w "%{redirect_url}" -s -o /dev/null https://mirror.ctan.org)systems/texlive/tlnet && \
+    REPO=$(curl -w "%{redirect_url}" -s -o /dev/null https://mirror.ctan.org/systems/texlive/tlnet/) && \
     ./install-tl \
       --profile=/tmp/install-tl-unx/texlive.profile \
       --repository $REPO &&\
     cd /usr/local/texlive/2021 && \
     mv ./bin/* ./bin/linux
-RUN tlmgr install \
-      collection-latexextra \
-      collection-fontsrecommended \
-      collection-langjapanese \
-      latexmk
+RUN tlmgr install collection-latexextra
+RUN tlmgr install collection-fontsrecommended
+RUN tlmgr install collection-langjapanese
+RUN tlmgr install latexmk
 
 FROM base 
 
