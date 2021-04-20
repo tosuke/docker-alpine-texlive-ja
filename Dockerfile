@@ -24,11 +24,8 @@ RUN cd ./install-tl-* && \
     ./install-tl \
       --profile=/tmp/install-tl-unx/texlive.profile \
       --repository $REPO &&\
-    cd /usr/local/texlive/2021 && \
+    cd /usr/local/texlive/latest && \
     mv ./bin/* ./bin/linux
-RUN tlmgr install collection-latexextra
-RUN tlmgr install collection-fontsrecommended
-RUN tlmgr install collection-langjapanese
 RUN tlmgr install latexmk
 
 FROM base 
