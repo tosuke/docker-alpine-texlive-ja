@@ -6,8 +6,10 @@
 FROM debian:buster-slim as base
 
 RUN apt-get update && \
-    apt-get install -y wget tar perl fontconfig fontconfig-config libfreetype6
-ENV PATH /usr/local/texlive/2021/bin/$(arch)-linux:$PATH
+    apt-get install -y wget tar perl fontconfig fontconfig-config libfreetype6 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* 
+ENV PATH=/usr/local/texlive/2021/bin/linux:$PATH
 
 FROM base AS install
 ARG texlive_mirror=http://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet
@@ -19,13 +21,19 @@ COPY ./texlive.profile .
 RUN cd ./install-tl-* && \
     ./install-tl \
       --repository ${texlive_mirror} \
-      --profile=/tmp/install-tl-unx/texlive.profile
-RUN /usr/local/texlive/2021/bin/$(arch)-linux/tlmgr install \
+      --profile=/tmp/install-tl-unx/texlive.profile && \
+    cd /usr/local/texlive/2021 && \
+    mv ./bin/$(arch)-linux ./bin/linux
+RUN tlmgr install \
       collection-latexextra \
       collection-fontsrecommended \
       collection-langjapanese \
       latexmk
 
+FROM base 
+
+COPY --from=install /usr/local/texlive /usr/local/texlive
+
 WORKDIR /workdir
 
-CMD ["sh"]
+ENTRYPOINT [ "bash" ]
