@@ -14,7 +14,7 @@ RUN apt-get update && \
 ENV PATH=/usr/local/texlive/latest/bin/linux:$PATH
 
 FROM base AS install
-RUN apt-get update && apt-get install -y curl tar gzip
+RUN apt-get update && apt-get install -y curl wget tar gzip
 
 WORKDIR /work
 RUN curl -L https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz \
