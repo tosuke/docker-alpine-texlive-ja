@@ -30,7 +30,7 @@ RUN curl -L https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz 
 
 FROM base
 
-COPY --from=install /usr/local/texlive /usr/local/texlive
+COPY --from=install  /usr/local/texlive /usr/local/texlive
 
 WORKDIR /workdir
 
