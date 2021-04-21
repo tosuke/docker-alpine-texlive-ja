@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-get install -y perl fontconfig fontconfig-config libfreetype6 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* 
-ENV PATH=/usr/local/texlive/latest/bin/linux:$PATH
+ENV PATH=/usr/local/texlive/2021/bin/linux:$PATH
 
 FROM base AS install
 RUN apt-get update && apt-get install -y curl wget tar gzip
@@ -25,7 +25,7 @@ RUN cd ./install-tl-* && \
     ./install-tl \
       --profile=/work/texlive.profile \
       --repository $REPO && \
-    cd /usr/local/texlive/latest && \
+    cd /usr/local/texlive/2021 && \
     ln -s $(pwd)/bin/$(arch)-linux $(pwd)/bin/linux
 RUN tlmgr install latexmk
 
