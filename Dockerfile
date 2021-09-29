@@ -32,6 +32,8 @@ FROM base
 
 COPY --from=install  /usr/local/texlive /usr/local/texlive
 
-WORKDIR /workdir
+WORKDIR /work
 
-ENTRYPOINT [ "bash" ]
+VOLUME ["/work"]
+
+CMD [ "bash" ]
