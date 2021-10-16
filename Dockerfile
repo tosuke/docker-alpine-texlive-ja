@@ -2,6 +2,7 @@
 
 # Copyright (c) 2016 Kaito Udagawa
 # Copyright (c) 2016-2020 3846masa
+# Copyright (c) 2021 Keisuke Nitta
 # Released under the MIT license
 # https://opensource.org/licenses/MIT
 

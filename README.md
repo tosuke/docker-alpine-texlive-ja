@@ -1,14 +1,10 @@
-# paperist/alpine-texlive-ja
+# tosuke/docker-debian-slim-texlive-ja
 
-[![Docker Automated build](https://img.shields.io/docker/automated/paperist/alpine-texlive-ja.svg)](https://hub.docker.com/r/paperist/alpine-texlive-ja/)
-[![Docker Image Size](https://images.microbadger.com/badges/image/paperist/alpine-texlive-ja.svg)](https://microbadger.com/images/paperist/alpine-texlive-ja "Get your own image badge on microbadger.com")
-[![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg)](https://github.com/RichardLitt/standard-readme)
+[!Docker build](https://img.shields.io/github/workflow/status/tosuke/docker-debian-slim-texlive-ja/Docker)
 
-> Minimal TeX Live image for Japanese based on alpine
+> Minimal TeX Live image for Japanese based on debian slim
 
-Forked from [umireon/docker-texci] \(under the MIT License\).
-
-[umireon/docker-texci]: https://github.com/umireon/docker-texci
+Forked from [Paperist/texlive-ja](https://github.com/Paperist/texlive-ja) \(under the MIT License\).
 
 ## Table of Contents
 
@@ -20,7 +16,7 @@ Forked from [umireon/docker-texci] \(under the MIT License\).
 ## Install
 
 ```bash
-docker pull paperist/alpine-texlive-ja
+docker pull ghcr.io/tosuke/debian-slim-texlive-ja:latest
 ```
 
 ## Usage
@@ -37,6 +33,3 @@ PRs accepted.
 ## License
 
 MIT © 3846masa
-
-
-
