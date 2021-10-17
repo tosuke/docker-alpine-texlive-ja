@@ -28,7 +28,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/debian-slim-texlive-ja
           tags: |
             type=ref,event=pr
-            type=raw,enable=${{ github.event == 'push' }},value=latest
+            type=raw,enable=${{ github.event_name == 'push' }},value=latest
 
       - uses: docker/build-push-action@v2
         with:
