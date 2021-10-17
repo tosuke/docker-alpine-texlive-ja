@@ -28,13 +28,10 @@ RUN /work/copy-lib.sh $TARGETPLATFORM $BUILDPLATFORM
 
 COPY ./texlive.profile /work/
 COPY ./texlive-arch.sh /work/
+COPY ./install.sh /work/
 RUN curl -L https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar zx -C /work
-RUN cd ./install-tl-* && \
-    REPO=$(curl -w "%{redirect_url}" -s -o /dev/null https://mirror.ctan.org/systems/texlive/tlnet/) && \
-    ./install-tl \
-      --force-arch $(/work/texlive-arch.sh $TARGETPLATFORM) \
-      --profile=/work/texlive.profile \
-      --no-verify-downloads
+RUN cd ./install-tl-* && /work/install.sh $(/work/texlive-arch.sh $TARGETPLATFORM) /work/texlive.profile
+    
 RUN ln -sf /usr/local/texlive/latest/bin/*-linux /usr/local/texlive/latest/bin/linux
 
 FROM base AS dist
