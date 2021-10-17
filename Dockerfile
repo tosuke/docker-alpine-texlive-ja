@@ -33,7 +33,8 @@ RUN cd ./install-tl-* && \
     REPO=$(curl -w "%{redirect_url}" -s -o /dev/null https://mirror.ctan.org/systems/texlive/tlnet/) && \
     ./install-tl \
       --force-arch $(/work/texlive-arch.sh $TARGETPLATFORM) \
-      --profile=/work/texlive.profile
+      --profile=/work/texlive.profile \
+      --no-verify-downloads
 RUN ln -sf /usr/local/texlive/latest/bin/*-linux /usr/local/texlive/latest/bin/linux
 
 FROM base AS dist
