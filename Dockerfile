@@ -9,7 +9,7 @@
 FROM debian:buster-slim AS base
 
 RUN apt-get update && \
-    apt-get install -y perl wget xz-utils && \
+    apt-get install -y git perl wget xz-utils && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* 
 ENV PATH=/usr/local/texlive/latest/bin/linux:$PATH
@@ -28,8 +28,8 @@ RUN /work/copy-lib.sh $TARGETPLATFORM $BUILDPLATFORM
 
 COPY ./texlive.profile /work/
 COPY ./texlive-arch.sh /work/
-COPY ./install.sh /work/
 RUN curl -L https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar zx -C /work
+COPY ./install.sh /work/
 RUN cd ./install-tl-* && /work/install.sh $(/work/texlive-arch.sh $TARGETPLATFORM) /work/texlive.profile
     
 RUN ln -sf /usr/local/texlive/latest/bin/*-linux /usr/local/texlive/latest/bin/linux
